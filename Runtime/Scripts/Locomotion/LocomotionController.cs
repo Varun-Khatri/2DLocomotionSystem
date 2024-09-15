@@ -49,8 +49,8 @@ namespace VK.Locomotion
             if (_cachedApplyGravity != _applyGravity)
             {
                 _cachedApplyGravity = _applyGravity;
-                _rb.gravityScale = _applyGravity ? 2 : 0;
             }
+            _rb.gravityScale = _applyGravity ? 2 : 0;
         }
 
         private void InitializeComponents()
