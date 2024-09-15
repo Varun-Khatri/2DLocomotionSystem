@@ -7,6 +7,12 @@
 "dependencies": {
     "com.unity.inputsystem": "1.9.0"
  },
+"samples": [
+    {
+      "displayName": "Sample Scenes",
+      "description": "Sample scenes for demonstration purposes.",
+      "path": "Samples~/SampleScenes"
+    }
   "author": {
     "name": "Varun Khatri",
     "email": "varun.khatri18@gmail.com",
