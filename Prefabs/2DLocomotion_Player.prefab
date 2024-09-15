@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 6596853597938831252}
   - component: {fileID: 428657238991649969}
   m_Layer: 6
-  m_Name: Player
+  m_Name: 2DLocomotion_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
