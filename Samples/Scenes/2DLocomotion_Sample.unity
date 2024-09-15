@@ -704,7 +704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6596853597938831252, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
       propertyPath: _applyGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7068087115895442033, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
       propertyPath: m_Layer

@@ -21,7 +21,7 @@ namespace VK.Locomotion
         }
         public override void Execute()
         {
-
+            base.Execute();
             moveInput = _inputHandler.MovementInput;
 
             if (moveInput.y > 0 && _locomotionController.RigidBody.linearVelocity.y > 0)

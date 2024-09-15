@@ -20,6 +20,7 @@ namespace VK.Locomotion
 
         public override void Execute()
         {
+            base.Execute();
             _inputDirection = _inputHandler.MovementInput;
 
             // Handle horizontal movement

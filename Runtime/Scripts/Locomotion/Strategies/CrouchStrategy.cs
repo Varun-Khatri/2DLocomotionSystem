@@ -22,7 +22,7 @@ namespace VK.Locomotion
         }
         public override void Execute()
         {
-
+            base.Execute();
             // Perform crouching logic
             var collider = _locomotionController.GetComponent<BoxCollider2D>();
             collider.size = new Vector2(collider.size.x, _crouchHeight);

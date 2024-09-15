@@ -45,6 +45,7 @@ namespace VK.Locomotion
 
         public override void Execute()
         {
+            base.Execute();
             var jumpSettings = (JumpSettings)_settings;
 
             _velocity = _locomotionController.GetVelocity();
