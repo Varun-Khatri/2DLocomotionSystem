@@ -1,0 +1,16 @@
+{
+    "name": "VK.Locomotion",
+    "rootNamespace": "VK.Locomotion",
+    "references": [
+        "GUID:174a4feeb9c39fd428b13e0fdef7a6fc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
