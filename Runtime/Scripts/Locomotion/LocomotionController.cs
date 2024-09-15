@@ -78,8 +78,8 @@ namespace VK.Locomotion
             {
                 CheckGrounded();
                 UpdateCoyoteTime();
+                CheckWallTouch();
             }
-            CheckWallTouch();
 
             if (_currentStrategy.Settings.ExitCondition())
             {
