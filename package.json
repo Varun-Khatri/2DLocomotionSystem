@@ -13,7 +13,7 @@
     ],
     "samples": [
         {
-            "displayName": "Sample Scenes",
+            "displayName": "Samples",
             "description": "Sample scenes for demonstration purposes.",
             "path": "Samples"
         }
