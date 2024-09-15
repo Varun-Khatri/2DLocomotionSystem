@@ -15,7 +15,7 @@
         {
             "displayName": "Sample Scenes",
             "description": "Sample scenes for demonstration purposes.",
-            "path": "Samples~/SampleScenes"
+            "path": "Samples/SampleScenes"
         }
     ],
     "author": {
