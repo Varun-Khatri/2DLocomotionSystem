@@ -19,7 +19,7 @@ namespace VK.Locomotion
             _enterCondition = () =>
             {
                 if (controller.ApplyGravity)
-                    return controller.IsGrounded && (inputHandler.MovementInput.magnitude > 0f || controller.GetVelocity().magnitude > 0f);
+                    return controller.IsGrounded && inputHandler.MovementInput.y == 0f && (inputHandler.MovementInput.magnitude > 0f || controller.GetVelocity().magnitude > 0f);
                 else
                     return (inputHandler.MovementInput.magnitude > 0f || controller.GetVelocity().magnitude > 0f);
             };
@@ -36,7 +36,9 @@ namespace VK.Locomotion
 
             bool exitToDash() => (controller.IsGrounded || controller.InCoyoteTime) && inputHandler.DashPressedThisFrame;
 
-            _exitCondition = () => exitToIdle() || exitToJump() || exitToDash();
+            bool exitToWallClimb() => controller.IsTouchingWall && inputHandler.MovementInput.y > 0f;
+
+            _exitCondition = () => exitToIdle() || exitToJump() || exitToDash() || exitToWallClimb();
 
             return new MoveStrategy(controller, inputHandler, this);
         }

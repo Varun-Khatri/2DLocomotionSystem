@@ -36,7 +36,9 @@ namespace VK.Locomotion
 
             bool exitToDash() => inputHandler.DashPressedThisFrame;
 
-            _exitCondition = () => exitToIdle() || exitToMove() || exitToDash();
+            bool exitToWallClimb() => controller.IsTouchingWall && inputHandler.MovementInput.y > 0f;
+
+            _exitCondition = () => exitToIdle() || exitToMove() || exitToDash() || exitToWallClimb();
 
             return new JumpStrategy(controller, inputHandler, this);
         }

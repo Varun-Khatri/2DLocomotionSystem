@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7911bbd0f6cc3458a00e89924b3e51, type: 3}
   m_Name: WallClimbingSettings
   m_EditorClassIdentifier: 
+  _possibleTransitionsTo:
+  - {fileID: 11400000, guid: fe8ac65bbd62b054ba3e6f7e774eef62, type: 2}
   wallClimbSpeed: 5
-  staminaDrainRate: 1
-  wallCheckDistance: 0.5

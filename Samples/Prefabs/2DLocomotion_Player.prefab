@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6842985074522812614}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1059153155559930459}
   - component: {fileID: 4997096247542184218}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,6 +181,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf976e55666ac4742b76e50c085e84fc, type: 2}
   - {fileID: 11400000, guid: 1f5a3872798cd3047aa90b8046a748f6, type: 2}
   - {fileID: 11400000, guid: aeb1326d9c2138c458b223118e4cc703, type: 2}
+  - {fileID: 11400000, guid: d27195e4e4359654fbc240eda88fb6fa, type: 2}
   _defaultStrategy: {fileID: 11400000, guid: fe8ac65bbd62b054ba3e6f7e774eef62, type: 2}
   _locomotionSettings: {fileID: 11400000, guid: 6358089f0983a0b4c8b4ee511ddfa2b1, type: 2}
   _inputHandler: {fileID: 428657238991649969}
@@ -209,7 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 737821806827825732}
   - component: {fileID: 8854011855947361527}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
