@@ -182,6 +182,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1f5a3872798cd3047aa90b8046a748f6, type: 2}
   - {fileID: 11400000, guid: aeb1326d9c2138c458b223118e4cc703, type: 2}
   - {fileID: 11400000, guid: d27195e4e4359654fbc240eda88fb6fa, type: 2}
+  - {fileID: 11400000, guid: 4e407583cc65e2540b92fb3a535402d7, type: 2}
   _defaultStrategy: {fileID: 11400000, guid: fe8ac65bbd62b054ba3e6f7e774eef62, type: 2}
   _locomotionSettings: {fileID: 11400000, guid: 6358089f0983a0b4c8b4ee511ddfa2b1, type: 2}
   _inputHandler: {fileID: 428657238991649969}

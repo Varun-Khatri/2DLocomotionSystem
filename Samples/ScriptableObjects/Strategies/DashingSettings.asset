@@ -18,5 +18,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1f5a3872798cd3047aa90b8046a748f6, type: 2}
   - {fileID: 11400000, guid: b3bf235b9ecfc514f95082b5a6de5b3e, type: 2}
   - {fileID: 11400000, guid: d27195e4e4359654fbc240eda88fb6fa, type: 2}
+  - {fileID: 11400000, guid: 4e407583cc65e2540b92fb3a535402d7, type: 2}
   _dashForce: 20
   _dashTime: 0.2

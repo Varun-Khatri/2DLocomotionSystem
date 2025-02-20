@@ -9,6 +9,8 @@ namespace VK.Locomotion
         private Vector2 _velocity;
         private float _initialGravityScale;
         private float _jumpStartTime;
+        private bool _jumpComplete;
+        private float _startHeight;
 
         public JumpStrategy(LocomotionController locomotionController, InputHandler inputHandler, BaseSettings settings)
             : base(locomotionController, inputHandler, settings)
@@ -23,11 +25,12 @@ namespace VK.Locomotion
             _hasReachedApex = false;
             var jumpSettings = (JumpSettings)_settings;
             jumpSettings.SetApex(_hasReachedApex);
+            jumpSettings.SetCompletion(_jumpComplete = false);
             _locomotionController.ResetCoyoteTime();
             _velocity = _locomotionController.GetVelocity();
             ApplyJumpForce();
             _jumpStartTime = Time.time;
-
+            _startHeight = _locomotionController.transform.position.y;
             Debug.Log("Entering Jump Strategy");
         }
 
@@ -55,6 +58,11 @@ namespace VK.Locomotion
             {
                 _hasReachedApex = true;
                 ((JumpSettings)_settings).SetApex(_hasReachedApex);
+            }
+
+            if (_hasReachedApex && _startHeight > _locomotionController.transform.position.y)
+            {
+                jumpSettings.SetCompletion(_jumpComplete = true);
             }
 
             // Apply gravity adjustments for Celeste-like jump

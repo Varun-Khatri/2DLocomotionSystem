@@ -17,6 +17,7 @@ namespace VK.Locomotion
         [SerializeField] private float _maxFallSpeed = 10f; // Maximum falling speed before applying increased gravity
 
         private bool _reachedApex = false;
+        private bool _jumpComplete = false;
         public float JumpHeight => _jumpHeight;
         public float TimeToApex => _timeToApex;
         public float HorizontalControl => _horizontalControl;
@@ -38,7 +39,9 @@ namespace VK.Locomotion
 
             bool exitToWallClimb() => controller.IsTouchingWall && inputHandler.MovementInput.y > 0f;
 
-            _exitCondition = () => exitToIdle() || exitToMove() || exitToDash() || exitToWallClimb();
+            bool exitToFall() => controller.ApplyGravity && !controller.IsGrounded && _jumpComplete;
+
+            _exitCondition = () => exitToIdle() || exitToMove() || exitToDash() || exitToWallClimb() || exitToFall();
 
             return new JumpStrategy(controller, inputHandler, this);
         }
@@ -51,6 +54,11 @@ namespace VK.Locomotion
         public void SetApex(bool value)
         {
             _reachedApex = value;
+        }
+
+        public void SetCompletion(bool value)
+        {
+            _jumpComplete = value;
         }
 
     }

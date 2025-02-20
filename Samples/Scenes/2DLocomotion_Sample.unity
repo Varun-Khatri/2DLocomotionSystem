@@ -647,21 +647,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1851234120739847428, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: respawnPoint
-      value: 
-      objectReference: {fileID: 772542586}
-    - target: {fileID: 3452997011906057528, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3831868823111045634, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3831868823111045634, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.88
       objectReference: {fileID: 0}
     - target: {fileID: 3831868823111045634, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -695,36 +687,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3901109442846853780, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4438514007783625522, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6596853597938831252, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: _applyGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6596853597938831252, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: _settingsList.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6596853597938831252, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: '_settingsList.Array.data[4]'
-      value: 
-      objectReference: {fileID: 11400000, guid: d27195e4e4359654fbc240eda88fb6fa, type: 2}
-    - target: {fileID: 6596853597938831252, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: '_settingsList.Array.data[5]'
-      value: 
-      objectReference: {fileID: 11400000, guid: b3bf235b9ecfc514f95082b5a6de5b3e, type: 2}
-    - target: {fileID: 7068087115895442033, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1851234120739847428, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
