@@ -69,7 +69,7 @@ namespace VK.Locomotion
             if (_velocity.y > 0)
             {
                 // Ascending phase: use normal gravity
-                _locomotionController.SetGravityScale(jumpSettings.FallMultiplier);
+                _locomotionController.SetGravityScale(_locomotionController.LocomotionSettings.gravityScale);
             }
             else if (_velocity.y < 0)
             {
