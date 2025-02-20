@@ -9,6 +9,7 @@ namespace VK.Locomotion
         [Header("Physics Settings")]
         public float coyoteTime = 0.2f;
         public float gravity = -9.8f;
+        public float gravityScale = 30f;
         [Header("Environment Settings")]
         public LayerMask groundLayer;
         public float groundCheckRadius = 0.2f;

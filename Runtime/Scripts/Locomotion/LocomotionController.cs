@@ -51,7 +51,7 @@ namespace VK.Locomotion
             {
                 _cachedApplyGravity = _applyGravity;
             }
-            _rb.gravityScale = _applyGravity ? 2 : 0;
+            _rb.gravityScale = _applyGravity ? _locomotionSettings.gravityScale : 0;
         }
 
         private void InitializeComponents()
@@ -73,7 +73,7 @@ namespace VK.Locomotion
             if (_cachedApplyGravity != _applyGravity)
             {
                 _cachedApplyGravity = _applyGravity;
-                _rb.gravityScale = _applyGravity ? 2 : 0;
+                _rb.gravityScale = _applyGravity ? _locomotionSettings.gravityScale : 0;
             }
             if (_applyGravity)
             {
