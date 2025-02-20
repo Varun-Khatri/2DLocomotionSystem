@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VK.Input;
@@ -35,7 +36,7 @@ namespace VK.Locomotion
         public bool IsDashing => _currentStrategy is DashStrategy;
         public bool IsClimbing => _currentStrategy is WallClimbStrategy;
         public Quaternion PlayerRotation => transform.rotation;
-
+        public Action<BaseStrategy> OnStrategyChanged;
 
         private void Awake()
         {
@@ -150,6 +151,8 @@ namespace VK.Locomotion
 
             _currentStrategy = strategy;
             _currentStrategy.Enter();
+
+            OnStrategyChanged?.Invoke(_currentStrategy);
         }
 
 
