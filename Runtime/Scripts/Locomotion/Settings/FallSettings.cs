@@ -33,7 +33,6 @@ namespace VK.Locomotion
             {
                 if (controller.ApplyGravity)
                 {
-                    Debug.Log($"can exit to idle " + controller.IsGrounded);
                     return controller.IsGrounded;
                 }
                 else
