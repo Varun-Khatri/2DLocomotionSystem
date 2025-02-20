@@ -11,7 +11,10 @@ namespace VK.Locomotion
             _enterCondition = () =>
             {
                 if (controller.ApplyGravity)
+                {
+                    Debug.Log($"can enter idle: " + (controller.IsGrounded && controller.GetVelocity().sqrMagnitude == 0f));
                     return controller.IsGrounded && controller.GetVelocity().sqrMagnitude == 0f;
+                }
                 else
                     return controller.GetVelocity().sqrMagnitude == 0f;
             };
