@@ -15,6 +15,7 @@ namespace VK.Locomotion
         [SerializeField] bool _applyGravity;
         [SerializeField] private Transform _groundCheck;
         [SerializeField] private bool _facingRight;
+        [SerializeField] private bool _enableGizmos;
 
         private List<BaseStrategy> _strategies = new List<BaseStrategy>();
         private BaseStrategy _currentStrategy;
@@ -181,5 +182,19 @@ namespace VK.Locomotion
         {
             _rb.gravityScale = value;
         }
+
+
+        private void OnDrawGizmos()
+        {
+            if (!_enableGizmos) return;
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(_groundCheck.position, _locomotionSettings.groundCheckRadius);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, transform.position + ((transform.right * transform.localScale.x) * _locomotionSettings.wallCheckDistance));
+
+        }
+
     }
 }

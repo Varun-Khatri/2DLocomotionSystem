@@ -189,6 +189,7 @@ MonoBehaviour:
   _applyGravity: 1
   _groundCheck: {fileID: 6842985074522812614}
   _facingRight: 0
+  _enableGizmos: 1
 --- !u!114 &428657238991649969
 MonoBehaviour:
   m_ObjectHideFlags: 0
