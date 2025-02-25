@@ -22,6 +22,7 @@ namespace VK.Locomotion
         public override void Exit()
         {
             base.Exit();
+            Debug.Log("Exiting Fall Strategy");
         }
 
         public override void Execute()
