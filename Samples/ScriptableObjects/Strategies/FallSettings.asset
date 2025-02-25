@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _possibleTransitionsTo:
   - {fileID: 11400000, guid: fe8ac65bbd62b054ba3e6f7e774eef62, type: 2}
-  _fallMultiplier: 35
-  _maxFallSpeed: 200
+  _fallMultiplier: 10
+  _maxFallSpeed: 100
   _maxMoveSpeed: 10
   _acceleration: 5
   _deceleration: 5

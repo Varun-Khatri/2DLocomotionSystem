@@ -178,12 +178,6 @@ namespace VK.Locomotion
             throw new System.ArgumentException($"Settings of type {typeof(T)} not found.");
         }
 
-        public void SetGravityScale(float value)
-        {
-            _rb.gravityScale = value;
-        }
-
-
         private void OnDrawGizmos()
         {
             if (!_enableGizmos) return;

@@ -10,6 +10,8 @@ namespace VK.Locomotion
         [SerializeField] private float _jumpHeight = 4f; // Desired jump height
         [SerializeField] private float _timeToApex = 0.4f; // Time to reach the apex of the jump
         [SerializeField] private float _horizontalControl = 10f; // Horizontal speed control
+        [SerializeField] private float _maxHorizontalSpeed = 500f; // Max Horizontal speed 
+        [SerializeField] private float _horizontalAcceleration = 500f; // Max Horizontal speed 
 
         [Header("Gravity Settings")]
         [SerializeField] private float _fallMultiplier = 2.5f; // Multiplier for falling speed
@@ -21,6 +23,8 @@ namespace VK.Locomotion
         public float JumpHeight => _jumpHeight;
         public float TimeToApex => _timeToApex;
         public float HorizontalControl => _horizontalControl;
+        public float MaxHorizontalSpeed => _maxHorizontalSpeed;
+        public float HorizontalAcceleration => _horizontalAcceleration;
 
         public float FallMultiplier => _fallMultiplier;
         public float LowJumpMultiplier => _lowJumpMultiplier;

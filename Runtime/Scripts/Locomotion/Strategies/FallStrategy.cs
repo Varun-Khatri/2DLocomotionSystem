@@ -8,75 +8,96 @@ namespace VK.Locomotion
         private Vector2 _inputDirection;
         private Vector2 _velocity;
         private float _cachedDirection;
-        private float _enterScale;
+
         public FallStrategy(LocomotionController locomotionController, InputHandler inputHandler, BaseSettings settings)
-                   : base(locomotionController, inputHandler, settings) { }
+            : base(locomotionController, inputHandler, settings) { }
 
         public override void Enter()
         {
             base.Enter();
             _velocity = _locomotionController.GetVelocity();
-            _enterScale = _locomotionController.RigidBody.gravityScale;
-            _locomotionController.SetGravityScale(((FallSettings)_settings).FallMultiplier);
             Debug.Log("Entering Fall Strategy");
         }
 
         public override void Exit()
         {
             base.Exit();
-            _locomotionController.SetGravityScale(_enterScale);
         }
 
         public override void Execute()
         {
             base.Execute();
-            ApplyGravity();
-            ApplyMovement();
+            // Handle input/rotation in Update for responsiveness
+            _inputDirection = _inputHandler.MovementInput;
             HandleRotation();
         }
 
         public override void PhysicsExecute()
         {
             base.PhysicsExecute();
-            // Apply the computed velocity to the player controller
-            _locomotionController.SetVelocity(_velocity * Time.fixedDeltaTime);
+            // Handle physics calculations in FixedUpdate
+            ApplyGravity();
+            ApplyMovement();
+
+            // Apply final velocity to the controller
+            _locomotionController.SetVelocity(_velocity);
         }
 
         private void ApplyGravity()
         {
-            _velocity.y += _locomotionController.LocomotionSettings.gravity * ((FallSettings)_settings).FallMultiplier * Time.fixedDeltaTime;
-            // Clamp the velocity to max speed
-            _velocity.y = Mathf.Clamp(_velocity.y, -((FallSettings)_settings).MaxFallSpeed, ((FallSettings)_settings).MaxFallSpeed);
+            var fallSettings = (FallSettings)_settings;
+            // Apply gravity acceleration (units/sec²)
+            float gravity = _locomotionController.LocomotionSettings.gravity * fallSettings.FallMultiplier;
+            _velocity.y += gravity * Time.fixedDeltaTime;
+
+            // Clamp max fall speed
+            _velocity.y = Mathf.Clamp(
+                _velocity.y,
+                -fallSettings.MaxFallSpeed,
+                float.MaxValue // Allow upward velocity from external forces
+            );
         }
 
         private void ApplyMovement()
         {
-            _inputDirection = _inputHandler.MovementInput;
-            // Handle horizontal movement
+            var fallSettings = (FallSettings)_settings;
+
+            // Horizontal movement
             if (_inputDirection.x != 0)
             {
-                _velocity.x += _inputDirection.x * ((FallSettings)_settings).Acceleration;
+                // Accelerate with input
+                _velocity.x += _inputDirection.x * fallSettings.Acceleration * Time.fixedDeltaTime;
+                // Clamp to max speed
+                _velocity.x = Mathf.Clamp(
+                    _velocity.x,
+                    -fallSettings.MaxMoveSpeed,
+                    fallSettings.MaxMoveSpeed
+                );
             }
-            else if (_velocity.x != 0)
+            else
             {
-                _velocity.x = Mathf.MoveTowards(_velocity.x, 0, ((FallSettings)_settings).Deceleration);
+                // Decelerate to zero
+                _velocity.x = Mathf.MoveTowards(
+                    _velocity.x,
+                    0,
+                    fallSettings.Deceleration * Time.fixedDeltaTime
+                );
             }
-            // Clamp the velocity to max speed
-            _velocity.x = Mathf.Clamp(_velocity.x, -((FallSettings)_settings).MaxMoveSpeed, ((FallSettings)_settings).MaxMoveSpeed);
         }
 
         private void HandleRotation()
         {
-            if (_inputDirection.x != 0 && _inputDirection.x != _cachedDirection)
-            {
-                _locomotionController.SetRotation(_inputDirection.x > 0
-                    ? Quaternion.Euler(0, 0, 0)  // No rotation (0 degrees)
-                    : Quaternion.Euler(0, 180, 0)); // 180-degree rotation
-                _locomotionController.SetFacing(_inputDirection.x > 0);
+            if (_inputDirection.x == 0 || Mathf.Approximately(_inputDirection.x, _cachedDirection))
+                return;
 
-                _cachedDirection = _inputDirection.x;
-            }
+            // Update rotation and facing direction
+            _cachedDirection = _inputDirection.x;
+            bool facingRight = _inputDirection.x > 0;
+            _locomotionController.SetRotation(facingRight ?
+                Quaternion.identity :
+                Quaternion.Euler(0, 180, 0)
+            );
+            _locomotionController.SetFacing(facingRight);
         }
-
     }
 }

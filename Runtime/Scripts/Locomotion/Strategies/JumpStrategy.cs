@@ -7,16 +7,14 @@ namespace VK.Locomotion
     {
         private bool _hasReachedApex;
         private Vector2 _velocity;
-        private float _initialGravityScale;
-        private float _jumpStartTime;
         private bool _jumpComplete;
         private float _startHeight;
+        private float _baseGravity; // Store base gravity computed from jump parameters
 
         public JumpStrategy(LocomotionController locomotionController, InputHandler inputHandler, BaseSettings settings)
             : base(locomotionController, inputHandler, settings)
         {
             _hasReachedApex = false;
-            _initialGravityScale = locomotionController.RigidBody.gravityScale;
         }
 
         public override void Enter()
@@ -29,21 +27,18 @@ namespace VK.Locomotion
             _locomotionController.ResetCoyoteTime();
             _velocity = _locomotionController.GetVelocity();
             ApplyJumpForce();
-            _jumpStartTime = Time.time;
             _startHeight = _locomotionController.transform.position.y;
-            Debug.Log("Entering Jump Strategy");
         }
 
         private void ApplyJumpForce()
         {
             var jumpSettings = (JumpSettings)_settings;
-            float gravity = (2 * jumpSettings.JumpHeight) / Mathf.Pow(jumpSettings.TimeToApex, 2);
-            float jumpForce = Mathf.Sqrt(2 * gravity * jumpSettings.JumpHeight);
-
+            // Calculate gravity based on desired jump height and time to apex
+            _baseGravity = (2 * jumpSettings.JumpHeight) / Mathf.Pow(jumpSettings.TimeToApex, 2);
+            // Calculate initial jump velocity
+            float jumpForce = Mathf.Sqrt(2 * _baseGravity * jumpSettings.JumpHeight);
             _velocity.y = jumpForce;
             _locomotionController.SetVelocity(_velocity);
-
-            _locomotionController.SetGravityScale(gravity / Physics2D.gravity.y);
         }
 
         public override void Execute()
@@ -51,51 +46,54 @@ namespace VK.Locomotion
             base.Execute();
             var jumpSettings = (JumpSettings)_settings;
 
-            _velocity = _locomotionController.GetVelocity();
+            // Get current velocity once per frame
+            Vector2 currentVelocity = _locomotionController.GetVelocity();
 
-            // Check if the player has reached the apex of the jump
-            if (!_hasReachedApex && _velocity.y <= 0)
+            // Calculate gravity effects
+            float currentGravity = _baseGravity;
+            if (currentVelocity.y > 0 && !_inputHandler.HoldingJump)
             {
-                _hasReachedApex = true;
-                ((JumpSettings)_settings).SetApex(_hasReachedApex);
+                currentGravity *= jumpSettings.LowJumpMultiplier;
+            }
+            else if (currentVelocity.y < 0)
+            {
+                currentGravity *= jumpSettings.FallMultiplier;
             }
 
+            // Apply gravity with deltaTime
+            currentVelocity.y -= currentGravity * Time.deltaTime;
+
+            // Horizontal control with proper acceleration
+            float targetHorizontalSpeed = _inputHandler.MovementInput.x * jumpSettings.MaxHorizontalSpeed;
+            currentVelocity.x = Mathf.MoveTowards(
+                currentVelocity.x,
+                targetHorizontalSpeed,
+                jumpSettings.HorizontalAcceleration * Time.deltaTime
+            );
+
+            // Clamp vertical speed
+            currentVelocity.y = Mathf.Max(currentVelocity.y, -jumpSettings.MaxFallSpeed);
+
+            // Update velocity
+            _locomotionController.SetVelocity(currentVelocity);
+
+            // Apex detection
+            if (!_hasReachedApex && currentVelocity.y <= 0)
+            {
+                _hasReachedApex = true;
+                jumpSettings.SetApex(_hasReachedApex);
+            }
+
+            // Jump completion check
             if (_hasReachedApex && _startHeight > _locomotionController.transform.position.y)
             {
                 jumpSettings.SetCompletion(_jumpComplete = true);
-            }
-
-            // Apply gravity adjustments for Celeste-like jump
-            if (_velocity.y > 0)
-            {
-                // Ascending phase: use normal gravity
-                _locomotionController.SetGravityScale(_locomotionController.LocomotionSettings.gravityScale);
-            }
-            else if (_velocity.y < 0)
-            {
-                // Descending phase: apply dynamic gravity based on velocity
-                float dynamicGravityScale = jumpSettings.FallMultiplier * Mathf.Clamp(_velocity.y / jumpSettings.MaxFallSpeed, 1, jumpSettings.LowJumpMultiplier);
-                _locomotionController.SetGravityScale(dynamicGravityScale);
-
-            }
-
-            // Apply horizontal control during the jump
-            _velocity.x = _inputHandler.MovementInput.x * jumpSettings.HorizontalControl;
-            _locomotionController.SetVelocity(_velocity);
-
-            // Check for early jump release
-            if (!_inputHandler.HoldingJump && Time.time - _jumpStartTime > jumpSettings.TimeToApex * 0.5f)
-            {
-                // Apply early jump release behavior (e.g., reduce jump height)
-                _velocity.y *= 0.5f; // Adjust as needed
             }
         }
 
         public override void Exit()
         {
             base.Exit();
-            _locomotionController.SetGravityScale(_initialGravityScale); // Reset gravity scale when grounded
-            Debug.Log("Exiting Jump");
         }
     }
 }

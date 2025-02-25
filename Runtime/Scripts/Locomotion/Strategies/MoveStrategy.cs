@@ -22,48 +22,38 @@ namespace VK.Locomotion
             base.Execute();
             _inputDirection = _inputHandler.MovementInput;
 
-            // Handle horizontal movement
+            // Handle horizontal movement with deltaTime
+            float deltaTime = Time.deltaTime;
             if (_inputDirection.x != 0)
             {
-                _velocity.x += _inputDirection.x * ((MovementSettings)_settings).Acceleration;
+                _velocity.x += _inputDirection.x * ((MovementSettings)_settings).Acceleration * deltaTime;
             }
-            else if (_velocity.x != 0)
+            else
             {
-                _velocity.x = Mathf.MoveTowards(_velocity.x, 0, ((MovementSettings)_settings).Deceleration);
-            }
-            // Clamp the velocity to max speed
-            _velocity.x = Mathf.Clamp(_velocity.x, -((MovementSettings)_settings).MaxSpeed, ((MovementSettings)_settings).MaxSpeed);
-
-            if (!_locomotionController.ApplyGravity)
-            {
-                if (_inputDirection.y != 0)
-                {
-                    _velocity.y += _inputDirection.y * ((MovementSettings)_settings).Acceleration;
-                }
-                else if (_velocity.y != 0)
-                {
-                    _velocity.y = Mathf.MoveTowards(_velocity.y, 0, ((MovementSettings)_settings).Deceleration);
-                }
-
-                _velocity.y = Mathf.Clamp(_velocity.y, -((MovementSettings)_settings).MaxSpeed, ((MovementSettings)_settings).MaxSpeed);
+                _velocity.x = Mathf.MoveTowards(
+                    _velocity.x,
+                    0,
+                    ((MovementSettings)_settings).Deceleration * deltaTime
+                );
             }
 
-            if (_locomotionController.ApplyGravity)
-            {
-                _velocity.y = _locomotionController.LocomotionSettings.gravity;
-            }
+            _velocity.x = Mathf.Clamp(_velocity.x,
+                -((MovementSettings)_settings).MaxSpeed,
+                ((MovementSettings)_settings).MaxSpeed
+            );
 
+            // Remove vertical movement logic from MoveStrategy
             HandleRotation();
         }
 
         public override void PhysicsExecute()
         {
             base.PhysicsExecute();
+            // Apply raw velocity without Time.fixedDeltaTime
+            _locomotionController.SetVelocity(_velocity);
 
-            // Apply the computed velocity to the player controller
-            _locomotionController.SetVelocity(_velocity * Time.fixedDeltaTime);
-
-            if (_locomotionController.ApplyGravity && _locomotionController.IsGrounded)
+            // Let gravity be handled by the physics system or FallStrategy
+            if (_locomotionController.IsGrounded)
             {
                 _velocity.y = 0;
             }
