@@ -22,3 +22,5 @@ MonoBehaviour:
   _maxSpeed: 100
   _acceleration: 30
   _deceleration: 30
+  _turnDeceleration: 100
+  _turnAccelerationMultiplier: 3

@@ -9,10 +9,15 @@ namespace VK.Locomotion
         [SerializeField] private float _maxSpeed = 10f;
         [SerializeField] private float _acceleration = 5f;
         [SerializeField] private float _deceleration = 5f;
+        [Header("Direction Change Settings")]
+        [SerializeField] private float _turnDeceleration = 40f;  // Higher deceleration when changing directions
+        [SerializeField] private float _turnAccelerationMultiplier = 1.5f;  // Acceleration boost after direction change
 
         public float MaxSpeed => _maxSpeed;
         public float Deceleration => _deceleration;
         public float Acceleration => _acceleration;
+        public float TurnDeceleration => _turnDeceleration;
+        public float TurnAccelerationMultiplier => _turnAccelerationMultiplier;
 
         public override BaseStrategy GetStrategy(LocomotionController controller, InputHandler inputHandler)
         {
