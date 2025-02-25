@@ -39,7 +39,17 @@ namespace VK.Locomotion
                     return true;
             };
 
-            _exitCondition = () => exitToIdle();
+            bool exitToMove()
+            {
+                if (controller.ApplyGravity && controller.GetVelocity().x != 0f)
+                {
+                    return controller.IsGrounded;
+                }
+                else
+                    return true;
+            };
+
+            _exitCondition = () => exitToIdle() || exitToMove();
 
             return new FallStrategy(controller, inputHandler, this);
         }

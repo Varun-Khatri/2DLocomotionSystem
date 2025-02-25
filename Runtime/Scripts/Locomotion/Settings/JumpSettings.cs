@@ -45,7 +45,7 @@ namespace VK.Locomotion
 
             bool exitToFall() => controller.ApplyGravity && !controller.IsGrounded && _jumpComplete;
 
-            _exitCondition = () => exitToIdle() || exitToMove() || exitToDash() || exitToWallClimb() || exitToFall();
+            _exitCondition = () => exitToIdle() || exitToFall() || exitToMove() || exitToDash() || exitToWallClimb();
 
             return new JumpStrategy(controller, inputHandler, this);
         }
