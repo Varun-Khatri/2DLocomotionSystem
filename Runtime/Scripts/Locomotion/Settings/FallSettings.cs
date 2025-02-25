@@ -24,7 +24,7 @@ namespace VK.Locomotion
             _enterCondition = () =>
             {
                 if (controller.ApplyGravity)
-                    return !controller.IsGrounded;
+                    return (!controller.IsGrounded || !controller.InCoyoteTime);
                 else
                     return false;
             };

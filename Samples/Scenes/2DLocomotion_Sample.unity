@@ -1104,10 +1104,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6596853597938831252, guid: 9ee2b23ad272fd147a90348311772a2a, type: 3}
-      propertyPath: _enableGizmos
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

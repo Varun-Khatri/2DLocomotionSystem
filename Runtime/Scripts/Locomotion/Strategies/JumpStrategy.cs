@@ -95,7 +95,7 @@ namespace VK.Locomotion
         {
             base.Exit();
             _locomotionController.SetGravityScale(_initialGravityScale); // Reset gravity scale when grounded
-            Debug.Log("Exiting Jump Strategy");
+            Debug.Log("Exiting Jump");
         }
     }
 }

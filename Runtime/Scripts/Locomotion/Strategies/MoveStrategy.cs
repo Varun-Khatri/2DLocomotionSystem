@@ -15,7 +15,6 @@ namespace VK.Locomotion
         {
             base.Enter();
             _velocity = _locomotionController.GetVelocity();
-            Debug.Log("Entering Move Strategy");
         }
 
         public override void Execute()
@@ -86,7 +85,6 @@ namespace VK.Locomotion
         public override void Exit()
         {
             base.Exit();
-            Debug.Log("Exiting Move Strategy");
         }
     }
 }

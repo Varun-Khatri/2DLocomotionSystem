@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coyoteTime: 0.2
   gravity: -9.8
+  gravityScale: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 128

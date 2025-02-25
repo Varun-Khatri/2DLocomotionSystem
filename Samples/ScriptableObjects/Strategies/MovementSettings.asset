@@ -20,5 +20,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b3bf235b9ecfc514f95082b5a6de5b3e, type: 2}
   - {fileID: 11400000, guid: 4e407583cc65e2540b92fb3a535402d7, type: 2}
   _maxSpeed: 500
-  _acceleration: 50
-  _deceleration: 50
+  _acceleration: 30
+  _deceleration: 30

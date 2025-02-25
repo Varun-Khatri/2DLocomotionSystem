@@ -38,7 +38,7 @@ namespace VK.Locomotion
 
             bool exitToWallClimb() => controller.IsTouchingWall && inputHandler.MovementInput.y > 0f;
 
-            bool exitToFall() => controller.ApplyGravity && !controller.IsGrounded;
+            bool exitToFall() => controller.ApplyGravity && (!controller.IsGrounded || !controller.InCoyoteTime);
 
 
             _exitCondition = () => exitToIdle() || exitToJump() || exitToDash() || exitToWallClimb() || exitToFall();
