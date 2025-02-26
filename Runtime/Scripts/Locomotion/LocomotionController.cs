@@ -190,5 +190,10 @@ namespace VK.Locomotion
 
         }
 
+        public void SetGravity(bool value)
+        {
+            _rb.gravityScale = value ? 1 : 0;
+        }
+
     }
 }

@@ -8,7 +8,9 @@ namespace VK.Locomotion
     {
         private float dashTime;
         private float dashForce;
-        private Vector2 _velocity;
+        private Vector2 dashVelocity;
+        private Coroutine dashRoutine;
+        private bool isDashing;
 
         public DashStrategy(LocomotionController locomotionController, InputHandler inputHandler, BaseSettings settings)
             : base(locomotionController, inputHandler, settings)
@@ -22,27 +24,56 @@ namespace VK.Locomotion
 
         public override void Enter()
         {
-            // Perform dashing logic
-            Debug.Log("Entered Dash");
-            _velocity = _locomotionController.GetVelocity();
+            base.Enter();
+            isDashing = true;
             _locomotionController.StartCoroutine(Dash());
+            ((DashSettings)_settings).SetForceApplied(true);
         }
 
         private IEnumerator Dash()
         {
-            float directionFacing = _locomotionController.FacingRight ? 1 : -1;
-            _velocity = new Vector2(directionFacing * dashForce, _velocity.y);
-            _locomotionController.SetVelocity(_velocity);
-            yield return new WaitForSecondsRealtime(dashTime);
-            ((DashSettings)_settings).SetForceApplied(true);
+            // Freeze vertical movement during dash
+            Vector2 currentVelocity = _locomotionController.GetVelocity();
+            float direction = _locomotionController.FacingRight ? 1 : -1;
+
+            // Celeste-style fixed horizontal dash
+            dashVelocity = new Vector2(direction * dashForce, 0f);
+            _locomotionController.SetVelocity(dashVelocity);
+
+            // Disable gravity during dash
+            _locomotionController.SetGravity(false);
+
+            float elapsed = 0f;
+            while (elapsed < dashTime)
+            {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            // Celeste-style momentum conservation
+            _locomotionController.SetVelocity(new Vector2(dashVelocity.x * 0.7f, 0f));
+            ((DashSettings)_settings).SetForceApplied(false);
+            isDashing = false;
+        }
+
+        public override void PhysicsExecute()
+        {
+            if (isDashing)
+            {
+                // Maintain consistent dash velocity
+                _locomotionController.SetVelocity(dashVelocity);
+            }
         }
 
         public override void Exit()
         {
             base.Exit();
+            if (dashRoutine != null)
+            {
+                _locomotionController.StopCoroutine(dashRoutine);
+            }
+            _locomotionController.SetGravity(true);
             ((DashSettings)_settings).SetForceApplied(false);
-            Debug.Log("Exited Dash");
         }
-
     }
 }

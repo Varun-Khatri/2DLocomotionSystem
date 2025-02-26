@@ -8,12 +8,13 @@ namespace VK.Locomotion
     {
         [SerializeField] private float _dashForce = 20f;
         [SerializeField] private float _dashTime = 0.2f;
+        [SerializeField] private float _cooldown = 0.4f;   // Prevent dash spamming
 
         private bool _forceApplied;
 
         public float dashForce => _dashForce;
         public float dashTime => _dashTime;
-
+        public float cooldown => _cooldown;
 
         public override BaseStrategy GetStrategy(LocomotionController controller, InputHandler inputHandler)
         {
