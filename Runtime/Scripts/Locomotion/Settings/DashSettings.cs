@@ -19,9 +19,9 @@ namespace VK.Locomotion
         {
             _enterCondition = () => inputHandler.DashPressedThisFrame;
 
-            bool exitToIdle() => controller.IsGrounded && _forceApplied && inputHandler.MovementInput.sqrMagnitude == 0f;
-            bool exitToMove() => controller.IsGrounded && _forceApplied && inputHandler.MovementInput.sqrMagnitude > 0f;
-            bool exitToJump() => controller.ApplyGravity && (controller.IsGrounded || controller.InCoyoteTime) && _forceApplied && inputHandler.JumpPressedThisFrame;
+            bool exitToIdle() => _forceApplied && inputHandler.MovementInput.sqrMagnitude == 0f;
+            bool exitToMove() => _forceApplied && inputHandler.MovementInput.sqrMagnitude > 0f;
+            bool exitToJump() => _forceApplied && inputHandler.JumpPressedThisFrame;
 
             _exitCondition = () => exitToIdle() || exitToMove() || exitToJump();
 
