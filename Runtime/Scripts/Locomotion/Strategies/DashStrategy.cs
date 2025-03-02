@@ -6,74 +6,105 @@ namespace VK.Locomotion
 {
     public class DashStrategy : BaseStrategy
     {
-        private float dashTime;
-        private float dashForce;
-        private Vector2 dashVelocity;
-        private Coroutine dashRoutine;
-        private bool isDashing;
+        // Configuration
+        private readonly float _dashSpeed;
+        private readonly float _dashDuration;
+        private readonly float _cooldown;
 
-        public DashStrategy(LocomotionController locomotionController, InputHandler inputHandler, BaseSettings settings)
-            : base(locomotionController, inputHandler, settings)
+        // State
+        private Vector2 _dashDir;
+        private bool _isDashing;
+        private float _lastDashTime = -Mathf.Infinity;
+        private Coroutine _activeDash;
+
+        public DashStrategy(LocomotionController controller,
+                           InputHandler inputHandler,
+                           DashSettings settings)
+            : base(controller, inputHandler, settings)
         {
-            if (settings is DashSettings dashingSettings)
-            {
-                dashForce = dashingSettings.dashForce;
-                dashTime = dashingSettings.dashTime;
-            }
+            _dashSpeed = settings.dashDistance / settings.dashTime;
+            _dashDuration = settings.dashTime;
+            _cooldown = settings.cooldown;
         }
 
         public override void Enter()
         {
+            if (!CanDash()) return;
+
             base.Enter();
-            isDashing = true;
-            _locomotionController.StartCoroutine(Dash());
-            ((DashSettings)_settings).SetForceApplied(true);
+
+            ((DashSettings)Settings).SetForceApplied(false);
+            _isDashing = true;
+            _lastDashTime = Time.time;
+            _activeDash = _locomotionController.StartCoroutine(PerformDash());
         }
 
-        private IEnumerator Dash()
+        private IEnumerator PerformDash()
         {
-            // Freeze vertical movement during dash
-            Vector2 currentVelocity = _locomotionController.GetVelocity();
-            float direction = _locomotionController.FacingRight ? 1 : -1;
+            // Determine direction
+            Vector2 input = _inputHandler.MovementInput.normalized;
+            _dashDir = GetDashDirection(input);
 
-            // Celeste-style fixed horizontal dash
-            dashVelocity = new Vector2(direction * dashForce, 0f);
-            _locomotionController.SetVelocity(dashVelocity);
+            // Freeze physics
+            _locomotionController.EnableGravity(false);
+            _locomotionController.SetVelocityY(0f);
 
-            // Disable gravity during dash
-            _locomotionController.SetGravity(false);
-
+            // Dash movement
             float elapsed = 0f;
-            while (elapsed < dashTime)
+            while (elapsed < _dashDuration)
             {
+
+                _locomotionController.SetVelocity(_dashDir * _dashSpeed);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
 
-            // Celeste-style momentum conservation
-            _locomotionController.SetVelocity(new Vector2(dashVelocity.x * 0.7f, 0f));
-            ((DashSettings)_settings).SetForceApplied(false);
-            isDashing = false;
+            // Transition out
+            EndDash();
         }
 
-        public override void PhysicsExecute()
+        private Vector2 GetDashDirection(Vector2 input)
         {
-            if (isDashing)
+            // 8-directional input detection
+            if (input.sqrMagnitude < 0.1f)
             {
-                // Maintain consistent dash velocity
-                _locomotionController.SetVelocity(dashVelocity);
+                return _locomotionController.FacingRight ? Vector2.right : Vector2.left;
             }
+
+            // Snap to 8 directions
+            float angle = Mathf.Atan2(input.y, input.x);
+            float snappedAngle = Mathf.Round(angle / (Mathf.PI / 4)) * (Mathf.PI / 4);
+            return new Vector2(Mathf.Cos(snappedAngle), Mathf.Sin(snappedAngle));
+        }
+
+
+        private void EndDash()
+        {
+            _isDashing = false;
+
+            // Restore physics
+            _locomotionController.EnableGravity(true);
+
+            // Preserve horizontal momentum if moving in dash direction
+            Vector2 currentVelocity = _locomotionController.GetVelocity();
+            currentVelocity.x *= 0.7f;
+            _locomotionController.SetVelocity(currentVelocity);
+            ((DashSettings)Settings).SetForceApplied(true);
+        }
+
+        private bool CanDash()
+        {
+            return Time.time > _lastDashTime + _cooldown && !_isDashing;
         }
 
         public override void Exit()
         {
             base.Exit();
-            if (dashRoutine != null)
+            if (_activeDash != null)
             {
-                _locomotionController.StopCoroutine(dashRoutine);
+                _locomotionController.StopCoroutine(_activeDash);
+                EndDash();
             }
-            _locomotionController.SetGravity(true);
-            ((DashSettings)_settings).SetForceApplied(false);
         }
     }
 }

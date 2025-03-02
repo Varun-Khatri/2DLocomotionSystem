@@ -27,7 +27,8 @@ namespace VK.Locomotion
             var collider = _locomotionController.GetComponent<BoxCollider2D>();
             collider.size = new Vector2(collider.size.x, _crouchHeight);
             collider.offset = _crouchOffset;
-            _locomotionController.RigidBody.linearVelocity = new Vector2(_inputHandler.MovementInput.x * _moveSpeed, _locomotionController.RigidBody.linearVelocity.y);
+            var velocity = _locomotionController.GetVelocity();
+            _locomotionController.SetVelocityX(_inputHandler.MovementInput.x * _moveSpeed);
         }
 
         public override void Exit()

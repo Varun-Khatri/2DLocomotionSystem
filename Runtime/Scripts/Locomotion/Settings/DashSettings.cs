@@ -6,19 +6,17 @@ namespace VK.Locomotion
     [CreateAssetMenu(fileName = "DashingSettings", menuName = "Locomotion/DashingSettings")]
     public class DashSettings : BaseSettings
     {
-        [SerializeField] private float _dashForce = 20f;
-        [SerializeField] private float _dashTime = 0.2f;
-        [SerializeField] private float _cooldown = 0.4f;   // Prevent dash spamming
+        [SerializeField] private float _dashDistance = 5f;  // Total distance in units
+        [SerializeField] private float _dashTime = 0.2f;    // Duration in seconds
+        [SerializeField] private float _cooldown = 0.4f;
 
         private bool _forceApplied;
-
-        public float dashForce => _dashForce;
+        public float dashDistance => _dashDistance;
         public float dashTime => _dashTime;
         public float cooldown => _cooldown;
 
         public override BaseStrategy GetStrategy(LocomotionController controller, InputHandler inputHandler)
         {
-            _forceApplied = false;
             _enterCondition = () => inputHandler.DashPressedThisFrame;
 
             bool exitToIdle() => controller.IsGrounded && _forceApplied && inputHandler.MovementInput.sqrMagnitude == 0f;
@@ -34,6 +32,5 @@ namespace VK.Locomotion
         {
             _forceApplied = value;
         }
-
     }
 }

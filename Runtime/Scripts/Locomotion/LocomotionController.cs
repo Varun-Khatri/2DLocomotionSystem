@@ -161,11 +161,30 @@ namespace VK.Locomotion
         {
             _isTouchingWall = Physics2D.Raycast(transform.position, transform.right * transform.localScale.x, _locomotionSettings.wallCheckDistance, _locomotionSettings.wallLayer);
         }
+        public void SetVelocityY(float value)
+        {
+            _rb.linearVelocityY = value;
+        }
+        public void SetVelocityX(float value)
+        {
+            _rb.linearVelocityX = value;
+        }
+
         public void SetRotation(Quaternion rotation) => transform.rotation = rotation;
         public void SetFacing(bool facingRight) => _facingRight = facingRight;
         public void SetVelocity(Vector2 vector) => _rb.linearVelocity = vector;
-        public Rigidbody2D RigidBody => _rb;
         public Vector2 GetVelocity() => _rb.linearVelocity;
+        public float GravityScale
+        {
+            get
+            {
+                return _rb.gravityScale;
+            }
+            set
+            {
+                _rb.gravityScale = value;
+            }
+        }
         public T GetSettings<T>() where T : BaseSettings
         {
             foreach (var settings in _settingsList)
@@ -176,6 +195,11 @@ namespace VK.Locomotion
                 }
             }
             throw new System.ArgumentException($"Settings of type {typeof(T)} not found.");
+        }
+
+        public void EnableGravity(bool value)
+        {
+            _applyGravity = value;
         }
 
         private void OnDrawGizmos()
@@ -189,11 +213,5 @@ namespace VK.Locomotion
             Gizmos.DrawLine(transform.position, transform.position + ((transform.right * transform.localScale.x) * _locomotionSettings.wallCheckDistance));
 
         }
-
-        public void SetGravity(bool value)
-        {
-            _rb.gravityScale = value ? 1 : 0;
-        }
-
     }
 }
