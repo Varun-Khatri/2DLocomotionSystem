@@ -10,17 +10,15 @@ namespace VK.Locomotion
 
         public override BaseStrategy GetStrategy(LocomotionController controller, InputHandler inputHandler)
         {
-            _enterCondition = () =>
-            {
-                return controller.IsTouchingWall && (inputHandler.MovementInput.y != 0f);
-            };
+            _enterCondition = () => controller.IsTouchingWall && (inputHandler.MovementInput.y != 0f);
 
-            bool exitToIdle()
-            {
-                return controller.IsGrounded && (controller.GetVelocity().sqrMagnitude == 0f || !controller.IsTouchingWall);
-            };
+            bool exitToIdle() => controller.IsGrounded && (controller.GetVelocity().sqrMagnitude == 0f || !controller.IsTouchingWall);
 
-            _exitCondition = () => exitToIdle();
+            bool exitToFall() => controller.ApplyGravity && !controller.IsGrounded && (controller.GetVelocity().sqrMagnitude == 0f || !controller.IsTouchingWall) && !inputHandler.JumpPressedThisFrame;
+
+            bool exitToWallJump() => controller.IsTouchingWall && inputHandler.JumpPressedThisFrame;
+
+            _exitCondition = () => exitToIdle() || exitToWallJump() || exitToFall();
 
             return new WallClimbStrategy(controller, inputHandler, this);
         }

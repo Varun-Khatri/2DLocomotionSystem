@@ -21,8 +21,6 @@ namespace VK.Locomotion
         public override void Enter()
         {
             base.Enter();
-            Debug.Log("Entering Wall Climb Strategy");
-
         }
 
         public override void Execute()
@@ -34,7 +32,6 @@ namespace VK.Locomotion
             {
                 _velocity = new Vector2(_velocity.x, _wallClimbSpeed);
                 _locomotionController.SetVelocity(_velocity);
-                Debug.Log(($"Wall Climb Velocity: {_locomotionController.GetVelocity()}"));
             }
         }
     }

@@ -16,13 +16,11 @@ namespace VK.Locomotion
         {
             base.Enter();
             _velocity = _locomotionController.GetVelocity();
-            Debug.Log("Entering Fall Strategy");
         }
 
         public override void Exit()
         {
             base.Exit();
-            Debug.Log("Exiting Fall Strategy");
         }
 
         public override void Execute()

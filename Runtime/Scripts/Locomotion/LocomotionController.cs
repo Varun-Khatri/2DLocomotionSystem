@@ -161,6 +161,15 @@ namespace VK.Locomotion
         {
             _isTouchingWall = Physics2D.Raycast(transform.position, transform.right * transform.localScale.x, _locomotionSettings.wallCheckDistance, _locomotionSettings.wallLayer);
         }
+
+        public void AddForce(Vector2 force, ForceMode2D forceMode = ForceMode2D.Force)
+        {
+            if (_rb != null)
+            {
+                _rb.AddForce(force, forceMode);
+            }
+        }
+
         public void SetVelocityY(float value)
         {
             _rb.linearVelocityY = value;
@@ -200,6 +209,12 @@ namespace VK.Locomotion
         public void EnableGravity(bool value)
         {
             _applyGravity = value;
+        }
+
+        public Vector2 GetWallNormal()
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right * transform.localScale.x, _locomotionSettings.wallCheckDistance, _locomotionSettings.wallLayer);
+            return hit.normal;
         }
 
         private void OnDrawGizmos()
