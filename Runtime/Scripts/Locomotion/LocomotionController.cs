@@ -154,6 +154,7 @@ namespace VK.Locomotion
             _currentStrategy.Enter();
 
             OnStrategyChanged?.Invoke(_currentStrategy);
+            Debug.Log($"Strategy Changed to {strategy.GetType().Name}");
         }
 
 

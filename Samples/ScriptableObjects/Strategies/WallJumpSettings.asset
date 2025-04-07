@@ -18,6 +18,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aeb1326d9c2138c458b223118e4cc703, type: 2}
   - {fileID: 11400000, guid: d27195e4e4359654fbc240eda88fb6fa, type: 2}
   - {fileID: 11400000, guid: 4e407583cc65e2540b92fb3a535402d7, type: 2}
-  _horizontalForce: 15
-  _verticalForce: 20
-  _jumpDuration: 0.3
+  _horizontalForce: 10
+  _verticalForce: 15
+  _jumpDuration: 0.5

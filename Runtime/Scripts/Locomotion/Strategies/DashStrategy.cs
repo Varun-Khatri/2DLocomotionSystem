@@ -105,7 +105,6 @@ namespace VK.Locomotion
                 _locomotionController.StopCoroutine(_activeDash);
                 EndDash();
             }
-            Debug.Log("Exiting Dash");
         }
     }
 }

@@ -7,7 +7,6 @@ namespace VK.Locomotion
     {
         private Vector2 _inputDirection;
         private Vector2 _velocity;
-        private float _cachedDirection;
         private bool _isChangingDirection;
 
         public MoveStrategy(LocomotionController locomotionController, InputHandler inputHandler, BaseSettings settings)
@@ -91,9 +90,8 @@ namespace VK.Locomotion
 
         private void HandleRotation()
         {
-            if (_inputDirection.x == 0 || Mathf.Approximately(_inputDirection.x, _cachedDirection)) return;
+            if (_inputDirection.x == 0) return;
 
-            _cachedDirection = _inputDirection.x;
             bool facingRight = _inputDirection.x > 0;
             _locomotionController.SetRotation(facingRight ?
                 Quaternion.identity :

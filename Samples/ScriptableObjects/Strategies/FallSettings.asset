@@ -15,6 +15,7 @@ MonoBehaviour:
   _possibleTransitionsTo:
   - {fileID: 11400000, guid: fe8ac65bbd62b054ba3e6f7e774eef62, type: 2}
   - {fileID: 11400000, guid: cf976e55666ac4742b76e50c085e84fc, type: 2}
+  - {fileID: 11400000, guid: aeb1326d9c2138c458b223118e4cc703, type: 2}
   _fallMultiplier: 10
   _maxFallSpeed: 100
   _maxMoveSpeed: 10

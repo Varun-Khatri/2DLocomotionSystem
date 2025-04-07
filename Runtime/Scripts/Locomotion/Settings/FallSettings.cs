@@ -37,7 +37,8 @@ namespace VK.Locomotion
                 }
                 else
                     return true;
-            };
+            }
+            ;
 
             bool exitToMove()
             {
@@ -47,9 +48,20 @@ namespace VK.Locomotion
                 }
                 else
                     return true;
-            };
+            }
+            ;
 
-            _exitCondition = () => exitToIdle() || exitToMove();
+            bool exitToDash()
+            {
+                if (controller.ApplyGravity && controller.GetVelocity().x != 0f)
+                {
+                    return inputHandler.DashPressedThisFrame;
+                }
+                else
+                    return true;
+            }
+
+            _exitCondition = () => exitToIdle() || exitToMove() || exitToDash();
 
             return new FallStrategy(controller, inputHandler, this);
         }

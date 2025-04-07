@@ -24,6 +24,7 @@ namespace VK.Locomotion
         public override void Enter()
         {
             base.Enter();
+            ((WallJumpSettings)Settings).CanFall(false);
             Vector2 wallNormal = _locomotionController.GetWallNormal();
             _horizontalDirection = Mathf.Sign(wallNormal.x);
             ApplyJumpForce();
@@ -36,6 +37,8 @@ namespace VK.Locomotion
                 _horizontalDirection * _horizontalForce,
                 _verticalForce
             ));
+
+            RotatePlayer();
         }
 
         public override void Execute()
@@ -52,11 +55,24 @@ namespace VK.Locomotion
                     current.y  // Maintain vertical velocity from physics
                 ));
             }
+            else
+            {
+                ((WallJumpSettings)Settings).CanFall(true);
+            }
         }
 
         public override void Exit()
         {
             base.Exit();
+        }
+
+        private void RotatePlayer()
+        {
+            _locomotionController.SetRotation(_locomotionController.FacingRight ?
+                Quaternion.Euler(0, 180, 0) :
+                Quaternion.identity
+            );
+            _locomotionController.SetFacing(!_locomotionController.FacingRight);
         }
     }
 }
