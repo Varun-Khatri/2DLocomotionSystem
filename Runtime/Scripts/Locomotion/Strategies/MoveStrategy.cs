@@ -67,7 +67,6 @@ namespace VK.Locomotion
             // Handle vertical movement if ApplyGravity is disabled
             if (!_locomotionController.ApplyGravity)
             {
-                Debug.Log("Checking vertical movement");
                 bool isChangingDirectionY = ShouldApplyTurnDeceleration(_velocity.y, _inputDirection.y);
 
                 if (_inputDirection.y != 0)
