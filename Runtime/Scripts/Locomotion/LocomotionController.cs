@@ -229,5 +229,28 @@ namespace VK.Locomotion
             Gizmos.DrawLine(transform.position, transform.position + ((transform.right * transform.localScale.x) * _locomotionSettings.wallCheckDistance));
 
         }
+
+        public void UpdatePlayerRotation(Vector2 direction)
+        {
+            if (direction == Vector2.zero) return;
+
+            if (!ApplyGravity)
+            {
+                // Full 360-degree rotation based on input direction
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                SetRotation(Quaternion.Euler(0, 0, angle));
+                SetFacing(angle > -90 && angle < 90);
+            }
+            else
+            {
+                // Original horizontal-only rotation
+                bool facingRight = direction.x > 0;
+                SetRotation(facingRight ?
+                    Quaternion.identity :
+                    Quaternion.Euler(0, 180, 0));
+                SetFacing(facingRight);
+            }
+        }
+
     }
 }

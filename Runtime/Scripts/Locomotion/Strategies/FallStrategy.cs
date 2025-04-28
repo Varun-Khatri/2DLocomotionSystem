@@ -28,7 +28,7 @@ namespace VK.Locomotion
             base.Execute();
             // Handle input/rotation in Update for responsiveness
             _inputDirection = _inputHandler.MovementInput;
-            HandleRotation();
+            _locomotionController.UpdatePlayerRotation(_inputDirection);
         }
 
         public override void PhysicsExecute()
@@ -45,7 +45,7 @@ namespace VK.Locomotion
         private void ApplyGravity()
         {
             var fallSettings = (FallSettings)_settings;
-            // Apply gravity acceleration (units/sec²)
+            // Apply gravity acceleration (units/secï¿½)
             float gravity = _locomotionController.LocomotionSettings.gravity * fallSettings.FallMultiplier;
             _velocity.y += gravity * Time.fixedDeltaTime;
 
@@ -82,21 +82,6 @@ namespace VK.Locomotion
                     fallSettings.Deceleration * Time.fixedDeltaTime
                 );
             }
-        }
-
-        private void HandleRotation()
-        {
-            if (_inputDirection.x == 0 || Mathf.Approximately(_inputDirection.x, _cachedDirection))
-                return;
-
-            // Update rotation and facing direction
-            _cachedDirection = _inputDirection.x;
-            bool facingRight = _inputDirection.x > 0;
-            _locomotionController.SetRotation(facingRight ?
-                Quaternion.identity :
-                Quaternion.Euler(0, 180, 0)
-            );
-            _locomotionController.SetFacing(facingRight);
         }
     }
 }

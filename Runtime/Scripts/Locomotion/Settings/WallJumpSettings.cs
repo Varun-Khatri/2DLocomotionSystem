@@ -33,7 +33,7 @@ namespace VK.Locomotion
 
             bool exitToMove() => controller.IsGrounded && inputHandler.MovementInput.x != 0;
 
-            bool exitToWallClimb() => controller.IsTouchingWall && inputHandler.MovementInput.y > 0f;
+            bool exitToWallClimb() => inputHandler.InteractPressedThisFrame && controller.IsTouchingWall && inputHandler.MovementInput.y > 0f;
 
             bool exitToDash() => inputHandler.DashPressedThisFrame;
 

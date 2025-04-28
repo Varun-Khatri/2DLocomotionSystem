@@ -30,7 +30,7 @@ namespace VK.Locomotion
 
             bool exitToDash() => (controller.IsGrounded || controller.InCoyoteTime) && inputHandler.DashPressedThisFrame;
 
-            bool exitToWallClimb() => controller.IsTouchingWall && inputHandler.MovementInput.y > 0f;
+            bool exitToWallClimb() => inputHandler.InteractPressedThisFrame && controller.IsTouchingWall && inputHandler.MovementInput.y > 0f;
 
             bool exitToFall() => controller.ApplyGravity && !controller.IsGrounded;
 

@@ -63,7 +63,47 @@ namespace VK.Locomotion
                 );
             }
 
-            HandleRotation();
+
+            // Handle vertical movement if ApplyGravity is disabled
+            if (!_locomotionController.ApplyGravity)
+            {
+                Debug.Log("Checking vertical movement");
+                bool isChangingDirectionY = ShouldApplyTurnDeceleration(_velocity.y, _inputDirection.y);
+
+                if (_inputDirection.y != 0)
+                {
+                    if (isChangingDirectionY)
+                    {
+                        // Apply turn deceleration for vertical
+                        _velocity.y = Mathf.MoveTowards(
+                            _velocity.y,
+                            0,
+                            moveSettings.TurnDeceleration * deltaTime
+                        );
+                    }
+                    else
+                    {
+                        // Normal acceleration for vertical
+                        float accelerationY = moveSettings.Acceleration * (isChangingDirectionY ? moveSettings.TurnAccelerationMultiplier : 1f);
+                        _velocity.y = Mathf.MoveTowards(
+                            _velocity.y,
+                            _inputDirection.y * moveSettings.MaxSpeed,
+                            accelerationY * deltaTime
+                        );
+                    }
+                }
+                else
+                {
+                    // Standard deceleration for vertical
+                    _velocity.y = Mathf.MoveTowards(
+                        _velocity.y,
+                        0,
+                        moveSettings.Deceleration * deltaTime
+                    );
+                }
+            }
+
+            _locomotionController.UpdatePlayerRotation(_inputDirection);
         }
 
         private bool ShouldApplyTurnDeceleration(float currentVelocityX, float inputX)
@@ -76,28 +116,21 @@ namespace VK.Locomotion
         public override void PhysicsExecute()
         {
             base.PhysicsExecute();
-            // Maintain vertical velocity from other systems
-            float preservedY = _locomotionController.GetVelocity().y;
-            _velocity.y = preservedY;
+
+            // Preserve vertical velocity from other systems only if ApplyGravity is enabled
+            if (_locomotionController.ApplyGravity)
+            {
+                float preservedY = _locomotionController.GetVelocity().y;
+                _velocity.y = preservedY;
+            }
 
             _locomotionController.SetVelocity(_velocity);
 
-            if (_locomotionController.IsGrounded)
+            // Reset Y velocity if grounded and ApplyGravity is enabled
+            if (_locomotionController.IsGrounded && _locomotionController.ApplyGravity)
             {
                 _velocity.y = 0;
             }
-        }
-
-        private void HandleRotation()
-        {
-            if (_inputDirection.x == 0) return;
-
-            bool facingRight = _inputDirection.x > 0;
-            _locomotionController.SetRotation(facingRight ?
-                Quaternion.identity :
-                Quaternion.Euler(0, 180, 0)
-            );
-            _locomotionController.SetFacing(facingRight);
         }
 
         public override void Exit()
