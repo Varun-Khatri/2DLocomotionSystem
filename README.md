@@ -67,12 +67,6 @@ LocomotionController → BaseStrategy → [WalkStrategy, DashStrategy, ClimbStra
 - **`BaseSettings`** - ScriptableObject configuration for each strategy
 - **`LocomotionSettings`** - Global physics and environment settings
 
-## 📦 Installation
-
-1. Download the latest release or clone this repository
-2. Add the files to your Unity project (2019.4+ recommended)
-3. Create a `LocomotionController` component on your player character
-
 ## 🎮 Quick Start
 
 ### Basic Setup
@@ -170,4 +164,5 @@ This system is part of my professional portfolio. Feel free to:
 - Use in your personal or commercial projects
 - Fork and modify for your needs
 - Report issues or suggest improvements
+
 
